@@ -1,0 +1,16 @@
+gravity -50.0
+springDampeningConst -0.3
+viscousDampeningConst 2
+ballRadius 10
+
+massBall 100 100 0
+massBall 200 100 0
+massBall 200 200 0
+massBall 100 200 0
+
+spring 31 100 3 0
+spring 31 100 0 1
+spring 31 100 2 3
+spring 31 100 1 2
+
+
