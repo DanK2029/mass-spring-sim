@@ -9,14 +9,17 @@ class MassBall {
   boolean dragged = false;
   boolean pinned = false;
   
+  float friction;
+  
   color ballColor = color(0,0,0);
   
   MassBall () {
   }
   
-  MassBall (float x, float y) {    
+  MassBall (float x, float y, float f) {    
     xPos = x;
     yPos = y;
+    friction = f;
   }
 }
 

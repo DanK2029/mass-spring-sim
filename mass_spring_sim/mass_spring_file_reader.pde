@@ -15,10 +15,8 @@ void read_file(String fileName) {
     if (words[0].equals("massBall")) {
       float xPosition = float(words[1]);
       float yPosition = float(words[2]);
-      MassBall ball = new MassBall(xPosition, yPosition);
-      if (int(words[3]) == 1) {
-        ball.pinned = true;
-      }
+      float friction = float(words[3]);
+      MassBall ball = new MassBall(xPosition, yPosition, friction);
       ballList.add(ball);
     } else if (words[0].equals("spring")) {
       float k = float(words[1]);
@@ -39,6 +37,8 @@ void read_file(String fileName) {
       ballRadius = float(words[1]);
     } else if (words[0].equals("tDelta")) {
       tDelta = float(words[1]);
+    } else if (words[0].equals("floorFriction")) {
+      floorFriction = float(words[1]);
     }
     
     try {

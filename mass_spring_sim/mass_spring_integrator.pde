@@ -11,6 +11,7 @@ void eulerForward(int n, float tDelta) {
         line(tempBall.xPos, height-tempBall.yPos, tempBall.xPos+tempBall.xForce, height-tempBall.yPos);
         noStroke();
         */
+        
         float newXAcc = tempBall.xForce;
         float newYAcc = tempBall.yForce;
         
@@ -68,7 +69,7 @@ void halfStep(int n, float tDelta) {
 ArrayList<MassBall> realCopyMassBallList(ArrayList<MassBall> copiedBallList, ArrayList<MassBall> ballList) {
   copiedBallList.clear();
   for (int i = 0; i < ballList.size(); i++) {
-    MassBall copiedBall = new MassBall(ballList.get(i).xPos, ballList.get(i).yPos);
+    MassBall copiedBall = new MassBall(ballList.get(i).xPos, ballList.get(i).yPos, ballList.get(i).friction);
     
     copiedBall.pinned = ballList.get(i).pinned;
     

@@ -1,27 +1,37 @@
-gravity -10
+gravity -30
 springDampeningConst -0.3
 viscousDampeningConst 1
+floorFriction 0.5
 ballRadius 10
 
 massBall 200 200 1
-massBall 150 150 0
-massBall 250 150 0
-massBall 300 200 0
-massBall 250 250 0
-massBall 150 250 0
-massBall 100 200 0
+massBall 200 150 1
+massBall 235.36 164.64 1 
+massBall 250 200 1
+massBall 235.36 235.36 1
+massBall 200 250 1
+massBall 164.64 235.36 1
+massBall 150 200 1
+massBall 164.64 164.64 1
 
 
-spring 31 50 0 20 0 1
-spring 31 50 1 20 0 2
-spring 31 50 2 20 0 3
-spring 31 50 3 20 0 4
-spring 31 50 4 20 0 5
-spring 31 50 5 20 0 6
+spring 31 50 0 0 0 1
+spring 31 50 0 0 0 2
+spring 31 50 0 0 0 3
+spring 31 50 0 0 0 4
+spring 31 50 0 0 0 5
+spring 31 50 0 0 0 6
+spring 31 50 0 0 0 7
+spring 31 50 0 0 0 8
 
-spring 31 50 0 20 1 2
-spring 31 50 1 20 2 3
-spring 31 50 2 20 3 4
-spring 31 50 3 20 4 5
-spring 31 50 4 20 5 6
-spring 31 50 5 20 6 1
+spring 40 38.27 0 20 1 2
+spring 40 38.27 0 20 2 3
+spring 40 38.27 0 20 3 4
+spring 40 38.27 0 20 4 5
+spring 40 38.27 0 20 5 6
+spring 40 38.27 0 20 6 7
+spring 40 38.27 0 20 7 8
+spring 40 38.27 0 50 8 1
+
+
+

@@ -11,6 +11,7 @@ float ballRadius = 10;
 float tDelta = 0.0025;
 float time = 0;
 String curIterator = "eulerForward";
+float floorFriction = 0.4;
 
 boolean halfStepFirstIter = true;
 boolean halfStepFirstIterSpring = true;
@@ -19,15 +20,12 @@ int draggedBallIndex = -1;
 void setup(){
   size(600, 600);
   frameRate(1000);
-  //String structureFileName = "line";
+  String structureFileName = "line";
   //String structureFileName = "hexegon";
   //String structureFileName = "equilateral_triangle";
   //String structureFileName = "box";
-  String structureFileName = "wheel";
+  //String structureFileName = "wheel";
   read_file("structures/" + structureFileName + ".txt");
-  //MassBall ball = new MassBall(300,100);
-  //ball.yVel = -500;
-  //ballList.add(ball);
   tempBallList = realCopyMassBallList(tempBallList, ballList);
 }
 
@@ -139,25 +137,33 @@ void springForceCalc(Spring spring) {
 void applyFrictionAndBounceForce(MassBall ball) {
   if (ball.yPos-ballRadius <= 0.0) {
     if (ball.yVel <= 0.0) {
-      if (ball.xVel < 0) {
-        ball.xForce += 0.7 * ball.xVel;
-      } else {
-        ball.xForce -= 0.7 * ball.xVel;
+      ball.yVel = -0.7 * ball.yVel;
+      if (ball.xVel < 0.0) {
+        float fricForce = (floorFriction + ball.friction) * abs(gravity);
+        if (abs(fricForce) > abs(ball.xForce)) {
+          fricForce = -ball.xForce;
+        }
+        ball.xForce += fricForce;
+      } 
+      if (ball.xVel > 0.0) {
+        float fricForce = (floorFriction + ball.friction) * abs(gravity);
+        if (abs(fricForce) > abs(ball.xForce)) {
+          fricForce = -ball.xForce;
+        }
+        ball.xForce += fricForce;
       }
     }
   }
   
-  if (ball.xPos+ballRadius > width) {
-    ball.xPos = width - ballRadius;
-    if (ball.xVel > 0) {
-      ball.xVel = -(ball.xVel * 0.70);
+  if (ball.xPos+ballRadius >= width) {
+    if (ball.xVel >= 0.0) {
+      ball.xVel = -0.7 * ball.xVel;
     }
   }
   
-  if (ball.xPos-ballRadius < 0.0) {
-    ball.xPos = ballRadius;
-    if (ball.xVel > 0) {
-      ball.xVel = -(ball.xVel * 0.70);
+  if (ball.xPos-ballRadius <= 0.0) {
+    if (ball.xVel <= 0.0) {
+      ball.xVel = -0.7 * ball.xVel;
     }
   }
 }

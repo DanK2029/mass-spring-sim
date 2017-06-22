@@ -3,7 +3,7 @@ springDampeningConst -0.3
 viscousDampeningConst 1
 ballRadius 10
 
-massBall 100 100 0
-massBall 150 150 0
+massBall 100 100 10
+massBall 150 100 1
 
 spring 31 70.7 0 30 0 1

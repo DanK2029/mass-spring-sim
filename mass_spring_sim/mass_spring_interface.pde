@@ -62,7 +62,7 @@ void mouseReleased(){
     draggedBallIndex = -1;
     
   } else {
-    MassBall newBall = new MassBall(mouseX, height-mouseY);
+    MassBall newBall = new MassBall(mouseX, height-mouseY, 1.0);
     newBall.xForce = 5*mouseXVel;
     newBall.yForce = 30*mouseYVel;
     ballList.add(newBall);
