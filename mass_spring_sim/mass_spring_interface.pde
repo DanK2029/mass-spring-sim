@@ -1,3 +1,15 @@
+void keyPressed() {
+  if (key == 't') {
+    singleStep = !singleStep;
+  }
+  if (key == 's') {
+    singleStep = false;
+    simStep();
+  }
+}
+
+
+/*
 int mouseInsideBall() {
   for (int i = 0; i < ballList.size(); i++) {
     float ballX = ballList.get(i).xPos;
@@ -68,3 +80,4 @@ void mouseReleased(){
     ballList.add(newBall);
   }
 }
+*/

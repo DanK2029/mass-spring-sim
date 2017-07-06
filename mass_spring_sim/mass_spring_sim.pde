@@ -1,12 +1,8 @@
-ArrayList<MassBall> ballList = new ArrayList<MassBall>();
-ArrayList<MassBall> tempBallList = new ArrayList<MassBall>();
-ArrayList<Spring> springList = new ArrayList<Spring>();
+ArrayList<Creature> creatureList = new ArrayList<Creature>();
 
-MassBall mouseBall = new MassBall();
-
-float gravity = -10;
-float springDampeningConst = 0.1;
-float viscousDampeningConst = 0.3;
+float gravity = -300;
+float springDampeningConst = -0.3;
+float viscousDampeningConst = 1;
 float ballRadius = 10;
 float tDelta = 0.0025;
 float time = 0;
@@ -17,19 +13,82 @@ boolean halfStepFirstIter = true;
 boolean halfStepFirstIterSpring = true;
 int draggedBallIndex = -1;
 
+boolean singleStep = false;
+
+int iterStep = 0;
+
 void setup(){
   size(600, 600);
   frameRate(1000);
-  String structureFileName = "line";
+  background(255);
+  //String structureFileName = "line";
   //String structureFileName = "hexegon";
   //String structureFileName = "equilateral_triangle";
   //String structureFileName = "box";
   //String structureFileName = "wheel";
-  read_file("structures/" + structureFileName + ".txt");
-  tempBallList = realCopyMassBallList(tempBallList, ballList);
+  //read_file("structures/" + structureFileName + ".txt");
+  
+  ArrayList<MassBall> cBallList = new ArrayList<MassBall>();
+  MassBall ball1 = new MassBall(100, 100, 3);
+  MassBall ball2 = new MassBall(200, 100, 3);
+  MassBall ball3 = new MassBall(150, 186.6, 3);
+  cBallList.add(ball1);
+  cBallList.add(ball2);
+  cBallList.add(ball3);
+  
+  ArrayList<Spring> cSpringList = new ArrayList<Spring>();
+  Spring spring1 = new Spring(31, 100, 0, 20, 0, 1);
+  Spring spring2 = new Spring(31, 100, 0, 20, 1, 2);
+  Spring spring3 = new Spring(31, 100, 0, 20, 2, 0);
+  cSpringList.add(spring1);
+  cSpringList.add(spring2);
+  cSpringList.add(spring3);
+  
+  Creature baseCreature = new Creature(cBallList, cSpringList);
+  
+  Creature finishedCreature = geneticAlgorithm(20, baseCreature);
+  println("done with genetic algorithm");
+  creatureList.add(finishedCreature);
+  //creatureList.add(baseCreature);
+  
 }
 
-void draw(){  //START OF DRAW ---------------------------------------------------------
+void draw() {
+  if (singleStep) {
+    simStep();
+  }
+  drawCreatures();
+}
+
+void drawCreatures() {
+  //draw springs
+  for (int i = 0; i < creatureList.size(); i++) {
+    for (int j = 0; j < creatureList.get(i).springList.size(); j++) {
+      Spring spring = creatureList.get(i).springList.get(j);
+      MassBall lb = creatureList.get(i).ballList.get(spring.leftBallIndex);
+      MassBall rb = creatureList.get(i).ballList.get(spring.rightBallIndex);
+      strokeWeight(ballRadius/3.0);
+      fill(0,0,0);
+      line(lb.xPos, height-lb.yPos, rb.xPos, height-rb.yPos);
+    }
+  }
+  
+  //draw balls
+  for (int i = 0; i < creatureList.size(); i++) {
+    for (int j = 0; j < creatureList.get(i).ballList.size(); j++) {
+      MassBall ball = creatureList.get(i).ballList.get(j);
+      float xBall = ball.xPos;
+      float yBall = ball.yPos;
+      fill(ball.ballColor);
+      noStroke();
+      ellipse(xBall, height-yBall, 2*ballRadius, 2*ballRadius);
+      stroke(ballRadius/3.0);      
+    }
+  }
+
+}
+
+void simStep() {
   background(255);
   fill(0);
   text("Gravity: "+str(gravity), 10, 10);
@@ -38,78 +97,59 @@ void draw(){  //START OF DRAW --------------------------------------------------
   text(curIterator, 10, 55);
   
   
-  if (mousePressed && draggedBallIndex == -1) {
-    noStroke();
-    ellipse(mouseBall.xPos, height-mouseBall.yPos, 2*ballRadius, 2*ballRadius);
-    stroke(ballRadius/3.0);
-  }
-  
-  //calculate and draw springs
-  for (int i = 0; i < springList.size(); i++) {
-    Spring spring = springList.get(i);
-    MassBall lb = spring.leftBall;
-    MassBall rb = spring.rightBall;
-    //calculate springs
-    springForceCalc(spring);
-    readjustSpringRestLength(spring);
-    spring.age += tDelta;
-    //draw springs
-    strokeWeight(ballRadius/3.0);
-    fill(0,0,0);
-    line(lb.xPos, height-lb.yPos, rb.xPos, height-rb.yPos);
+  //calculate springs
+  for (int i = 0; i < creatureList.size(); i++) {
+    for (int j = 0; j < creatureList.get(i).springList.size(); j++) {
+      Spring spring = creatureList.get(i).springList.get(j);
+      springForceCalc(creatureList.get(i), j);
+      readjustSpringRestLength(creatureList.get(i), j);
+      spring.age += tDelta;      
+    }
   }
   
   //apply forces to balls
-  for (int i = 0; i < ballList.size(); i++) {
-    MassBall ball = ballList.get(i);
-    ball.yForce += gravity;
-    ball.xForce -= viscousDampeningConst * ball.xVel;
-    ball.yForce -= viscousDampeningConst * ball.yVel;
-    
+  for (int i = 0; i < creatureList.size(); i++) {
+    for (int j = 0; j < creatureList.get(i).ballList.size(); j++) {
+      MassBall ball = creatureList.get(i).ballList.get(j);
+      ball.yForce += gravity;
+      ball.xForce -= viscousDampeningConst * ball.xVel;
+      ball.yForce -= viscousDampeningConst * ball.yVel;
+    }
   }
   
   //calculate ball physics
   if (curIterator == "halfStep") {
-    halfStep(4, tDelta);
+    halfStep(1, tDelta, creatureList);
   } else if (curIterator == "eulerForward") {
-    eulerForward(4, tDelta);
-  }
-  
-  for (int i = 0; i < ballList.size(); i++) {
-    MassBall ball = ballList.get(i);
-    float xBall = ball.xPos;
-    float yBall = ball.yPos;
-    fill(ball.ballColor);
-    noStroke();
-    ellipse(xBall, height-yBall, 2*ballRadius, 2*ballRadius);
-    stroke(ballRadius/3.0);
+    eulerForward(1, tDelta, creatureList);
   }
   
   //reset forces
-  for (int i = 0; i < ballList.size(); i++) {
-    ballList.get(i).xForce = 0.0;
-    ballList.get(i).yForce = 0.0;
-  } 
+  for (int i = 0; i < creatureList.size(); i++) {
+    for (int j = 0; j < creatureList.get(i).ballList.size(); j++) {
+      creatureList.get(i).ballList.get(j).xForce = 0.0;
+      creatureList.get(i).ballList.get(j).yForce = 0.0;
+    }
+  }
   time += tDelta;
 }
-//END OF DRAW----------------------------------------------------------------------------
 
-
-
-//SPRING FORCE CLACULATIONS START--------------------------------------------------------
-void readjustSpringRestLength(Spring spring){
+void readjustSpringRestLength(Creature creature, int springIndex){
   float frequency = 5;
-  float phase = spring.phase;
-  float magnitude = spring.magnitude;
-  spring.restLength = spring.originalRestLength + magnitude*sin(time*frequency + phase);
+  float phase = creature.springList.get(springIndex).phase;
+  float magnitude = creature.springList.get(springIndex).magnitude;
+  
+  creature.springList.get(springIndex).restLength = creature.springList.get(springIndex).originalRestLength + magnitude*sin(time*frequency + phase*(2*PI));
 }
 
-void springForceCalc(Spring spring) {
-  float Ks = spring.springConst;
+void springForceCalc(Creature creature, int springIndex) {
+  float Ks = creature.springList.get(springIndex).springConst;
   float Kd = springDampeningConst;
-  float r = spring.restLength;
-  MassBall rightBall = spring.rightBall;
-  MassBall leftBall = spring.leftBall;
+  float r = creature.springList.get(springIndex).restLength;
+  
+  MassBall rightBall = creature.ballList.get(creature.springList.get(springIndex).rightBallIndex);
+  MassBall leftBall = creature.ballList.get(creature.springList.get(springIndex).leftBallIndex);
+  
   float springLength = sqrt(sq(rightBall.xPos - leftBall.xPos) + sq(rightBall.yPos - leftBall.yPos));
   
   float ballXPosDif = (leftBall.xPos - rightBall.xPos);
@@ -130,28 +170,23 @@ void springForceCalc(Spring spring) {
   leftBall.yForce -= fy;
   
 }
-//SPRING FORCE CALCULATION END-----------------------------------------------------------
 
-
-//BOUNDARY AND FRICTION FORCE START------------------------------------------------------
 void applyFrictionAndBounceForce(MassBall ball) {
   if (ball.yPos-ballRadius <= 0.0) {
     if (ball.yVel <= 0.0) {
       ball.yVel = -0.7 * ball.yVel;
-      if (ball.xVel < 0.0) {
-        float fricForce = (floorFriction + ball.friction) * abs(gravity);
-        if (abs(fricForce) > abs(ball.xForce)) {
-          fricForce = -ball.xForce;
-        }
-        ball.xForce += fricForce;
-      } 
-      if (ball.xVel > 0.0) {
-        float fricForce = (floorFriction + ball.friction) * abs(gravity);
-        if (abs(fricForce) > abs(ball.xForce)) {
-          fricForce = -ball.xForce;
-        }
-        ball.xForce += fricForce;
-      }
+    }
+  }
+  
+  if (ball.yPos < ballRadius+0.5) {
+    if (ball.xVel < 0.0) {
+      float fricForce = -(floorFriction + ball.friction) * ball.xVel;
+      
+      ball.xForce += fricForce;
+    } else {
+      float fricForce = -(floorFriction + ball.friction) * ball.xVel;
+      
+      ball.xForce += fricForce;
     }
   }
   
@@ -160,6 +195,7 @@ void applyFrictionAndBounceForce(MassBall ball) {
       ball.xVel = -0.7 * ball.xVel;
     }
   }
+  
   
   if (ball.xPos-ballRadius <= 0.0) {
     if (ball.xVel <= 0.0) {
@@ -170,7 +206,6 @@ void applyFrictionAndBounceForce(MassBall ball) {
 
 
 void boundCheck(MassBall ball) {
-  
   if (ball.yPos-ballRadius <= 0.0) {
     ball.yPos = ballRadius;
   }
@@ -183,4 +218,3 @@ void boundCheck(MassBall ball) {
     ball.xPos = ballRadius;
   }
 }
-//BOUNDARY AND FRICTION FORCE END-------------------------------------------------------

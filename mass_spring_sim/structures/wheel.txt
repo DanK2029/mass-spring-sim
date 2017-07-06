@@ -4,34 +4,36 @@ viscousDampeningConst 1
 floorFriction 0.5
 ballRadius 10
 
-massBall 200 200 1
-massBall 200 150 1
-massBall 235.36 164.64 1 
-massBall 250 200 1
-massBall 235.36 235.36 1
-massBall 200 250 1
-massBall 164.64 235.36 1
-massBall 150 200 1
-massBall 164.64 164.64 1
+creature
+
+massBall 200 200 5
+massBall 200 150 5
+massBall 235.36 164.64 5 
+massBall 250 200 5
+massBall 235.36 235.36 5
+massBall 200 250 5
+massBall 164.64 235.36 5
+massBall 150 200 5
+massBall 164.64 164.64 5
 
 
-spring 31 50 0 0 0 1
-spring 31 50 0 0 0 2
-spring 31 50 0 0 0 3
-spring 31 50 0 0 0 4
-spring 31 50 0 0 0 5
-spring 31 50 0 0 0 6
-spring 31 50 0 0 0 7
-spring 31 50 0 0 0 8
+spring 31 50 1 15 0 1
+spring 31 50 0.75 15 0 2
+spring 31 50 0.5 15 0 3
+spring 31 50 0.25 15 0 4
+spring 31 50 1 15 0 5
+spring 31 50 0.75 15 0 6
+spring 31 50 0.25 15 0 7
+spring 31 50 0 15 0 8
 
-spring 40 38.27 0 20 1 2
-spring 40 38.27 0 20 2 3
-spring 40 38.27 0 20 3 4
-spring 40 38.27 0 20 4 5
-spring 40 38.27 0 20 5 6
-spring 40 38.27 0 20 6 7
-spring 40 38.27 0 20 7 8
-spring 40 38.27 0 50 8 1
+spring 40 38.27 0 0 1 2
+spring 40 38.27 0 0 2 3
+spring 40 38.27 0 0 3 4
+spring 40 38.27 0 0 4 5
+spring 40 38.27 0 0 5 6
+spring 40 38.27 0 0 6 7
+spring 40 38.27 0 0 7 8
+spring 40 38.27 0 0 8 1
 
-
+createCreature
 

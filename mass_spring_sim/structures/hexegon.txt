@@ -3,6 +3,8 @@ springDampeningConst -0.3
 viscousDampeningConst 5.0
 ballRadius 10
 
+creature
+
 massBall 200 200 0
 massBall 150 150 0
 massBall 250 150 0
@@ -25,3 +27,5 @@ spring 31 50 0 20 3 4
 spring 31 50 0 20 4 5
 spring 31 50 0 20 5 6
 spring 31 50 0 20 6 1
+
+createCreature
