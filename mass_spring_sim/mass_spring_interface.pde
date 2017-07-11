@@ -4,7 +4,7 @@ void keyPressed() {
   }
   if (key == 's') {
     singleStep = false;
-    simStep();
+    simStep(creatureList);
   }
 }
 

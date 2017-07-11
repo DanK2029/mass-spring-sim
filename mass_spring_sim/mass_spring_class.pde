@@ -1,16 +1,24 @@
+int creatureCount = 0;
+
 class Creature {
   ArrayList<MassBall> ballList;
   ArrayList<MassBall> tempBallList = new ArrayList<MassBall>();
   
-  ArrayList<Spring> springList; 
+  ArrayList<Spring> springList;
+  
+  float fitness = 0.0;
+  int id = creatureCount;
   
   Creature() {
+    creatureCount++;
     this.ballList = new ArrayList<MassBall>();
     this.tempBallList = new ArrayList<MassBall>();
     this.springList = new ArrayList<Spring>();
   }
   
   Creature(ArrayList<MassBall> ballList, ArrayList<Spring> springList) {
+    creatureCount++;
+    this.id = creatureCount;
     this.ballList = ballList;
     for (int i = 0; i < ballList.size(); i++) {
       MassBall copiedBall = ballList.get(i).copyMassBall();
@@ -24,6 +32,7 @@ class Creature {
   }
   
   Creature copyCreature() {
+    creatureCount++;
     ArrayList<MassBall> copiedBallList = new ArrayList<MassBall>();
     ArrayList<MassBall> copiedTempBallList = new ArrayList<MassBall>();
     ArrayList<Spring> copiedSpringList = new ArrayList<Spring>();
@@ -37,7 +46,6 @@ class Creature {
     for (int i = 0; i < this.springList.size(); i++) {
       copiedSpringList.add(this.springList.get(i).copySpring());
     }
-    
     Creature copiedCreature = new Creature(copiedBallList, copiedSpringList);
     return copiedCreature;
   }
@@ -50,10 +58,30 @@ class Creature {
         float dPhase = random(-0.1, 0.1);
         springList.get(i).phase += dPhase;
       } else {
-        float dMagnitude = random(-10, 10);
+        float dMagnitude = random(-5, 5);
         springList.get(i).magnitude += dMagnitude;
+        if (springList.get(i).magnitude > 35.0) {
+          springList.get(i).magnitude = 35.0;
+        }
+        /*if (springList.get(i).magnitude < 0.0) {
+          springList.get(i).magnitude = 0.0;
+        }*/
       }
     } 
+  }
+  
+  void printCreaturePhases() {
+    println();
+    for (int i = 0; i < this.springList.size(); i++) {
+      print(springList.get(i).phase+" ");
+    }
+  }
+  
+  void printCreatureMagnitudes() {
+    println();
+    for (int i = 0; i < this.springList.size(); i++) {
+      print(springList.get(i).magnitude+" ");
+    }
   }
   
   float evaluateCreature() {
@@ -69,6 +97,10 @@ class Creature {
       this.ballList.get(i).xPos += dX;
       this.ballList.get(i).yPos += dY;
     }
+  }
+  
+  public int compareTo(Creature c) {
+    return (int) (fitness - c.fitness);
   }
   
 }

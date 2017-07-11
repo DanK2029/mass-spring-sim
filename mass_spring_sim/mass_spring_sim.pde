@@ -29,54 +29,57 @@ void setup(){
   //read_file("structures/" + structureFileName + ".txt");
   
   ArrayList<MassBall> cBallList = new ArrayList<MassBall>();
-  MassBall ball1 = new MassBall(100, 100, 3);
-  MassBall ball2 = new MassBall(200, 100, 3);
-  MassBall ball3 = new MassBall(150, 186.6, 3);
+  MassBall ball1 = new MassBall(100, 20, 3);
+  MassBall ball2 = new MassBall(200, 20, 3);
+  MassBall ball3 = new MassBall(150, 106.6, 3);
+  MassBall ball4 = new MassBall(125, 45, 30);
   cBallList.add(ball1);
   cBallList.add(ball2);
   cBallList.add(ball3);
+  cBallList.add(ball4);
   
   ArrayList<Spring> cSpringList = new ArrayList<Spring>();
-  Spring spring1 = new Spring(31, 100, 0, 20, 0, 1);
-  Spring spring2 = new Spring(31, 100, 0, 20, 1, 2);
-  Spring spring3 = new Spring(31, 100, 0, 20, 2, 0);
+  Spring spring1 = new Spring(31, 100, 0, 0, 0, 1);
+  Spring spring2 = new Spring(31, 100, 0, 0, 1, 2);
+  Spring spring3 = new Spring(31, 100, 0, 0, 2, 0);
+  Spring spring4 = new Spring(31, 80, 0, 20, 3, 2);
+  Spring spring5 = new Spring(31, 80, 0, 20, 3, 1);
   cSpringList.add(spring1);
   cSpringList.add(spring2);
   cSpringList.add(spring3);
+  cSpringList.add(spring4);
+  cSpringList.add(spring5);
   
   Creature baseCreature = new Creature(cBallList, cSpringList);
   
-  Creature finishedCreature = geneticAlgorithm(20, baseCreature);
+  Creature finishedCreature = geneticAlgorithm(10, baseCreature);
   println("done with genetic algorithm");
   creatureList.add(finishedCreature);
-  //creatureList.add(baseCreature);
+  finishedCreature.printCreatureMagnitudes();
+  creatureList.add(baseCreature);
   
 }
 
 void draw() {
   if (singleStep) {
-    simStep();
+    simStep(creatureList);
   }
   drawCreatures();
 }
 
-void drawCreatures() {
-  //draw springs
-  for (int i = 0; i < creatureList.size(); i++) {
-    for (int j = 0; j < creatureList.get(i).springList.size(); j++) {
-      Spring spring = creatureList.get(i).springList.get(j);
-      MassBall lb = creatureList.get(i).ballList.get(spring.leftBallIndex);
-      MassBall rb = creatureList.get(i).ballList.get(spring.rightBallIndex);
-      strokeWeight(ballRadius/3.0);
-      fill(0,0,0);
-      line(lb.xPos, height-lb.yPos, rb.xPos, height-rb.yPos);
-    }
+void drawCreature(Creature c) {
+  // draw creature's springs
+  for (int j = 0; j < c.springList.size(); j++) {
+    Spring spring = c.springList.get(j);
+    MassBall lb = c.ballList.get(spring.leftBallIndex);
+    MassBall rb = c.ballList.get(spring.rightBallIndex);
+    strokeWeight(ballRadius/3.0);
+    fill(0,0,0);
+    line(lb.xPos, height-lb.yPos, rb.xPos, height-rb.yPos);
   }
-  
-  //draw balls
-  for (int i = 0; i < creatureList.size(); i++) {
-    for (int j = 0; j < creatureList.get(i).ballList.size(); j++) {
-      MassBall ball = creatureList.get(i).ballList.get(j);
+  // draw creature's balls
+  for (int j = 0; j < c.ballList.size(); j++) {
+      MassBall ball = c.ballList.get(j);
       float xBall = ball.xPos;
       float yBall = ball.yPos;
       fill(ball.ballColor);
@@ -84,11 +87,19 @@ void drawCreatures() {
       ellipse(xBall, height-yBall, 2*ballRadius, 2*ballRadius);
       stroke(ballRadius/3.0);      
     }
+}
+
+void drawCreatures() {
+  //draw creatures
+  for (int i = 0; i < creatureList.size(); i++) {
+    drawCreature(creatureList.get(i));
   }
 
 }
 
-void simStep() {
+void simStep(ArrayList<Creature> creatureList) {
+  //println("sim step"+iterStep);
+  //iterStep++;
   background(255);
   fill(0);
   text("Gravity: "+str(gravity), 10, 10);
@@ -190,11 +201,11 @@ void applyFrictionAndBounceForce(MassBall ball) {
     }
   }
   
-  if (ball.xPos+ballRadius >= width) {
+  /*if (ball.xPos+ballRadius >= width) {
     if (ball.xVel >= 0.0) {
       ball.xVel = -0.7 * ball.xVel;
     }
-  }
+  }*/
   
   
   if (ball.xPos-ballRadius <= 0.0) {
@@ -210,9 +221,9 @@ void boundCheck(MassBall ball) {
     ball.yPos = ballRadius;
   }
   
-  if (ball.xPos+ballRadius > width) {
+  /*if (ball.xPos+ballRadius > width) {
     ball.xPos = width - ballRadius;
-  }
+  }*/
   
   if (ball.xPos-ballRadius < 0.0) {
     ball.xPos = ballRadius;
