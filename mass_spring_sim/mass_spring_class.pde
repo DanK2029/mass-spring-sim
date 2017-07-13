@@ -1,5 +1,3 @@
-int creatureCount = 0;
-
 class Creature {
   ArrayList<MassBall> ballList;
   ArrayList<MassBall> tempBallList = new ArrayList<MassBall>();
@@ -32,7 +30,6 @@ class Creature {
   }
   
   Creature copyCreature() {
-    creatureCount++;
     ArrayList<MassBall> copiedBallList = new ArrayList<MassBall>();
     ArrayList<MassBall> copiedTempBallList = new ArrayList<MassBall>();
     ArrayList<Spring> copiedSpringList = new ArrayList<Spring>();

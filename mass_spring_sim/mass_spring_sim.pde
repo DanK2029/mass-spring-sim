@@ -8,6 +8,7 @@ float tDelta = 0.0025;
 float time = 0;
 String curIterator = "eulerForward";
 float floorFriction = 0.4;
+int creatureCount = 0;
 
 boolean halfStepFirstIter = true;
 boolean halfStepFirstIterSpring = true;
