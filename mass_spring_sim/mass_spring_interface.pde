@@ -1,10 +1,22 @@
 void keyPressed() {
-  if (key == 't') {
+  if (key == ' ') {
     singleStep = !singleStep;
   }
   if (key == 's') {
     singleStep = false;
     simStep(creatureList);
+  }
+  if (key == '1') {
+    readCreatureFile("structures/GenAlgoCreations/" + "GenAlgoCreation_200Pop120Gen" + ".txt");
+  }
+  if (key == '2') {
+    readCreatureFile("structures/GenAlgoCreations/" + "GenAlgoCreation_100Pop100Gen" + ".txt");
+  }
+  if (key == '3') {
+    readCreatureFile("structures/" + "baseTriangleCreature" + ".txt");
+  }
+  if (key == '4') {
+    readCreatureFile("structures/" + "wheel" + ".txt");
   }
 }
 

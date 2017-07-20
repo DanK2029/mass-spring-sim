@@ -1,10 +1,9 @@
 import java.util.*;
 
-Creature geneticAlgorithm(int populationSize, Creature baseCreature) {
+Creature geneticAlgorithm(int populationSize, int numOfGenerations, Creature baseCreature) {
   int winningCreatureIndex = 0;
   float winningThreshold = 500.0;
   float topFitness = 0.0;
-  boolean winningCreatureFound = false;
   int testTimeSpan = 8000;
   int generationCount = 0;
   ArrayList<Creature> population = generateInitialPopulation(populationSize, baseCreature);
@@ -18,18 +17,17 @@ Creature geneticAlgorithm(int populationSize, Creature baseCreature) {
         topFitness = population.get(i).fitness;
         winningCreatureIndex = i;
       }
-      if (population.get(i).fitness > winningThreshold) {
-        winningCreatureFound = true;
-      }
     }
     
-    println("Generation: "+generationCount);
-    println("Top Fitness: "+topFitness);
-    
-  } while (generationCount < 20);//!winningCreatureFound);
+    println("Generation: " + generationCount);
+    println("Top Fitness: " + topFitness);
+    Date genDate = new Date();
+    println(genDate);
+  } while (generationCount < numOfGenerations);
   
-   
-  return population.get(winningCreatureIndex);
+  Creature winningCreature = population.get(winningCreatureIndex);
+  writeCreatureFile(winningCreature, "latestGenAlgoCreation");
+  return winningCreature;
 }
 
 ArrayList<Creature> generateInitialPopulation(int populationSize, Creature baseCreature) {

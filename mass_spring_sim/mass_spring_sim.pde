@@ -18,46 +18,25 @@ boolean singleStep = false;
 
 int iterStep = 0;
 
+String structureFileName = "";
+
 void setup(){
-  size(600, 600);
+  size(1200, 600);
   frameRate(1000);
   background(255);
-  //String structureFileName = "line";
-  //String structureFileName = "hexegon";
-  //String structureFileName = "equilateral_triangle";
-  //String structureFileName = "box";
   //String structureFileName = "wheel";
-  //read_file("structures/" + structureFileName + ".txt");
+  //String structureFileName = "latestGenAlgoCreation_200Pop120Gen";
+  //readCreatureFile("structures/GenAlgoCreations/" + structureFileName + ".txt");
   
-  ArrayList<MassBall> cBallList = new ArrayList<MassBall>();
-  MassBall ball1 = new MassBall(100, 20, 3);
-  MassBall ball2 = new MassBall(200, 20, 3);
-  MassBall ball3 = new MassBall(150, 106.6, 3);
-  MassBall ball4 = new MassBall(125, 45, 30);
-  cBallList.add(ball1);
-  cBallList.add(ball2);
-  cBallList.add(ball3);
-  cBallList.add(ball4);
-  
-  ArrayList<Spring> cSpringList = new ArrayList<Spring>();
-  Spring spring1 = new Spring(31, 100, 0, 0, 0, 1);
-  Spring spring2 = new Spring(31, 100, 0, 0, 1, 2);
-  Spring spring3 = new Spring(31, 100, 0, 0, 2, 0);
-  Spring spring4 = new Spring(31, 80, 0, 20, 3, 2);
-  Spring spring5 = new Spring(31, 80, 0, 20, 3, 1);
-  cSpringList.add(spring1);
-  cSpringList.add(spring2);
-  cSpringList.add(spring3);
-  cSpringList.add(spring4);
-  cSpringList.add(spring5);
-  
-  Creature baseCreature = new Creature(cBallList, cSpringList);
-  
-  Creature finishedCreature = geneticAlgorithm(10, baseCreature);
+  /*Date beforeDate = new Date();
+  println(beforeDate);
+  Creature finishedCreature = geneticAlgorithm(100, 100, baseCreature);
+  Date afterDate = new Date();
+  println(afterDate);
   println("done with genetic algorithm");
   creatureList.add(finishedCreature);
   finishedCreature.printCreatureMagnitudes();
-  creatureList.add(baseCreature);
+  creatureList.add(baseCreature);*/
   
 }
 
@@ -75,7 +54,7 @@ void drawCreature(Creature c) {
     MassBall lb = c.ballList.get(spring.leftBallIndex);
     MassBall rb = c.ballList.get(spring.rightBallIndex);
     strokeWeight(ballRadius/3.0);
-    fill(0,0,0);
+    fill(c.creatureColor);
     line(lb.xPos, height-lb.yPos, rb.xPos, height-rb.yPos);
   }
   // draw creature's balls
@@ -83,7 +62,7 @@ void drawCreature(Creature c) {
       MassBall ball = c.ballList.get(j);
       float xBall = ball.xPos;
       float yBall = ball.yPos;
-      fill(ball.ballColor);
+      fill(c.creatureColor);
       noStroke();
       ellipse(xBall, height-yBall, 2*ballRadius, 2*ballRadius);
       stroke(ballRadius/3.0);      
@@ -100,13 +79,14 @@ void drawCreatures() {
 
 void simStep(ArrayList<Creature> creatureList) {
   //println("sim step"+iterStep);
-  //iterStep++;
+  iterStep++;
   background(255);
   fill(0);
   text("Gravity: "+str(gravity), 10, 10);
   text("Spring Dampening Constant: "+str(springDampeningConst), 10, 25);
   text("Viscous Dampening Constant: "+str(viscousDampeningConst), 10, 40);
   text(curIterator, 10, 55);
+  text(iterStep, 10, 70);
   
   
   //calculate springs

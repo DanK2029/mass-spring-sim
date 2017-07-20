@@ -1,8 +1,10 @@
+String structureFilePath =  "C:/Users/Daniel Kane/Documents/Processing/Projects/mass_spring_sim/mass_spring_sim/structures/";
+
 BufferedReader reader; 
 String line;
 Creature currentCreature;
 
-void read_file(String fileName) {  
+void readCreatureFile(String fileName) {  
   try {
     reader = createReader(fileName);
     line = reader.readLine();
@@ -54,5 +56,35 @@ void read_file(String fileName) {
       line = null;
     }    
   }
+}
+
+void writeCreatureFile(Creature c, String fileName) {
   
+  try{
+    File fileRight = new File(structureFilePath + fileName + ".txt");
+    PrintWriter writer = new PrintWriter(fileRight);
+    writer.println("creature");
+    
+    writer.println("gravity " + gravity);
+    writer.println("springDampeningConst " + springDampeningConst);
+    writer.println("viscousDampeningConst " + viscousDampeningConst);
+    writer.println("floorFriction " + floorFriction);
+    writer.println("ballRadius " + ballRadius);
+    
+    for (int i = 0; i < c.ballList.size(); i++) {
+      MassBall mb = c.ballList.get(i);
+      writer.println("massBall " + mb.xPos + " " + mb.yPos + " " + mb.friction);
+    }
+    
+    for (int i = 0; i < c.springList.size(); i++) {
+      Spring sp = c.springList.get(i);
+      writer.println("spring " + sp.springConst + " " + sp.originalRestLength + " " + sp.phase + " " + sp.magnitude + " " + sp.rightBallIndex + " " + sp.leftBallIndex);
+    }
+    
+    writer.println("createCreature");
+    writer.close();
+  } catch (IOException e) {
+    e.printStackTrace();
+  }
+  println("done!");
 }

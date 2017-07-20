@@ -7,6 +7,8 @@ class Creature {
   float fitness = 0.0;
   int id = creatureCount;
   
+  color creatureColor = color(0,0,0);
+  
   Creature() {
     creatureCount++;
     this.ballList = new ArrayList<MassBall>();
@@ -116,8 +118,6 @@ class MassBall {
   boolean pinned = false;
   
   float friction;
-  
-  color ballColor = color(0,0,0);
   
   MassBall () {
   }
