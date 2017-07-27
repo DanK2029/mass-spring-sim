@@ -60,6 +60,8 @@ void readCreatureFile(String fileName) {
 
 void writeCreatureFile(Creature c, String fileName) {
   
+  String structureFilePath =  "C:/Users/Daniel Kane/Documents/Processing/Projects/mass_spring_sim/mass_spring_sim/structures/";
+  
   try{
     File fileRight = new File(structureFilePath + fileName + ".txt");
     PrintWriter writer = new PrintWriter(fileRight);

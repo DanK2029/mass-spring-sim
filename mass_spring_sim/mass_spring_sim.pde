@@ -24,19 +24,21 @@ void setup(){
   size(1200, 600);
   frameRate(1000);
   background(255);
-  //String structureFileName = "wheel";
+  String structureFileName = "wheel";
   //String structureFileName = "latestGenAlgoCreation_200Pop120Gen";
-  //readCreatureFile("structures/GenAlgoCreations/" + structureFileName + ".txt");
+  readCreatureFile("structures/" + structureFileName + ".txt");
   
-  /*Date beforeDate = new Date();
+  Date beforeDate = new Date();
   println(beforeDate);
-  Creature finishedCreature = geneticAlgorithm(100, 100, baseCreature);
+  Creature baseCreature = creatureList.get(0);
+  creatureList.remove(0);
+  Creature finishedCreature = geneticAlgorithm(8, 5, baseCreature);
   Date afterDate = new Date();
   println(afterDate);
   println("done with genetic algorithm");
   creatureList.add(finishedCreature);
   finishedCreature.printCreatureMagnitudes();
-  creatureList.add(baseCreature);*/
+  creatureList.add(baseCreature);
   
 }
 

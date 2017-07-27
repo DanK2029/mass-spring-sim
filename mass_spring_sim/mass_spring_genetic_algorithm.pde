@@ -2,7 +2,6 @@ import java.util.*;
 
 Creature geneticAlgorithm(int populationSize, int numOfGenerations, Creature baseCreature) {
   int winningCreatureIndex = 0;
-  float winningThreshold = 500.0;
   float topFitness = 0.0;
   int testTimeSpan = 8000;
   int generationCount = 0;
@@ -18,7 +17,7 @@ Creature geneticAlgorithm(int populationSize, int numOfGenerations, Creature bas
         winningCreatureIndex = i;
       }
     }
-    
+    writeCreatureFile(population.get(winningCreatureIndex), "GenAlgoCreations/winningCreatures/"+generationCount);
     println("Generation: " + generationCount);
     println("Top Fitness: " + topFitness);
     Date genDate = new Date();
