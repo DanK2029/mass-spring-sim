@@ -21,10 +21,10 @@ spring 51 50 1 5 0 1
 spring 51 50 0.75 5 0 2
 spring 51 50 0.5 5 0 3
 spring 51 50 0.25 5 0 4
-spring 51 50 1 5 0 5
-spring 51 50 0.75 5 0 6
-spring 51 50 0.25 5 0 7
-spring 51 50 0 5 0 8
+spring 51 50 0 5 0 5
+spring 51 50 0.25 5 0 6
+spring 51 50 0.75 5 0 7
+spring 51 50 1 5 0 8
 
 spring 80 38.27 0 0 1 2
 spring 80 38.27 0 0 2 3

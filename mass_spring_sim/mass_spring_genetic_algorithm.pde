@@ -11,21 +11,21 @@ Creature geneticAlgorithm(int populationSize, int numOfGenerations, Creature bas
     println("");
     generationCount++;
     population = evaluatePopulation(population, testTimeSpan);
+    println("Generation: " + generationCount);
     for (int i = 0; i < population.size(); i++) {
+      println("CreatureID: " + population.get(i).id + ", Fitness: " + population.get(i).fitness);
       if (population.get(i).fitness >= topFitness) {
         topFitness = population.get(i).fitness;
         winningCreatureIndex = i;
       }
     }
-    writeCreatureFile(population.get(winningCreatureIndex), "GenAlgoCreations/winningCreatures/"+generationCount);
-    println("Generation: " + generationCount);
-    println("Top Fitness: " + topFitness);
+    //writeCreatureFile(population.get(winningCreatureIndex), "GenAlgoCreations/winningCreatures/"+generationCount);
     Date genDate = new Date();
     println(genDate);
   } while (generationCount < numOfGenerations);
   
   Creature winningCreature = population.get(winningCreatureIndex);
-  writeCreatureFile(winningCreature, "latestGenAlgoCreation");
+  //writeCreatureFile(winningCreature, "latestGenAlgoCreation");
   return winningCreature;
 }
 
@@ -90,15 +90,15 @@ ArrayList<Creature> evaluatePopulation(ArrayList<Creature> population, int testT
 
 void testCreature(Creature c, int timeSpan) {
   Creature testCreature = c.copyCreature();
-  
   ArrayList<Creature> singleCreatureList = new ArrayList<Creature>();
   singleCreatureList.add(testCreature);
-  
+
   for (int i = 0; i < timeSpan; i++) {
     simStep(singleCreatureList);
   }
-  
+
   float fitness = singleCreatureList.get(0).evaluateCreature();
+  println(c.id, fitness);
   c.fitness = fitness;
 }
 

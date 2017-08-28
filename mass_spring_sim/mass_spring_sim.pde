@@ -21,36 +21,35 @@ int iterStep = 0;
 String structureFileName = "";
 
 void setup(){
-  size(1200, 600);
+  size(600,600);
   frameRate(1000);
   background(255);
-  String structureFileName = "wheel";
+  String structureFileName = "line";
   //String structureFileName = "latestGenAlgoCreation_200Pop120Gen";
   readCreatureFile("structures/" + structureFileName + ".txt");
-  
-  Date beforeDate = new Date();
-  println(beforeDate);
-  Creature baseCreature = creatureList.get(0);
-  creatureList.remove(0);
-  Creature finishedCreature = geneticAlgorithm(8, 5, baseCreature);
-  Date afterDate = new Date();
-  println(afterDate);
-  println("done with genetic algorithm");
-  creatureList.add(finishedCreature);
-  finishedCreature.printCreatureMagnitudes();
-  creatureList.add(baseCreature);
-  
+  Creature creature1 = creatureList.get(0);
+  moveCreatureToGround(creature1);
+  Creature creature2 = creatureList.get(0).copyCreature();
+  creature2.creatureColor = color(0, 0, 0, 127);
+  creature1.creatureColor = color(255, 0, 0);
+  creatureList.add(creature2);
+  testCreature(creature1, 5000);
+  testCreature(creature2, 5000);
+
 }
 
 void draw() {
   if (singleStep) {
     simStep(creatureList);
+     
   }
   drawCreatures();
 }
 
 void drawCreature(Creature c) {
   // draw creature's springs
+  fill(c.creatureColor);
+  stroke(c.creatureColor);
   for (int j = 0; j < c.springList.size(); j++) {
     Spring spring = c.springList.get(j);
     MassBall lb = c.ballList.get(spring.leftBallIndex);
@@ -69,6 +68,7 @@ void drawCreature(Creature c) {
       ellipse(xBall, height-yBall, 2*ballRadius, 2*ballRadius);
       stroke(ballRadius/3.0);      
     }
+
 }
 
 void drawCreatures() {
@@ -88,7 +88,6 @@ void simStep(ArrayList<Creature> creatureList) {
   text("Spring Dampening Constant: "+str(springDampeningConst), 10, 25);
   text("Viscous Dampening Constant: "+str(viscousDampeningConst), 10, 40);
   text(curIterator, 10, 55);
-  text(iterStep, 10, 70);
   
   
   //calculate springs
@@ -210,5 +209,17 @@ void boundCheck(MassBall ball) {
   
   if (ball.xPos-ballRadius < 0.0) {
     ball.xPos = ballRadius;
+  }
+}
+
+void moveCreatureToGround(Creature c) {
+  float lowestBallYPos = Float.MAX_VALUE;
+  for (int i = 0; i < c.ballList.size(); i++) {
+    if (c.ballList.get(i).yPos < lowestBallYPos) {
+      lowestBallYPos = c.ballList.get(i).yPos;
+    }
+  }
+  for (int i = 0; i < c.ballList.size(); i++) {
+    c.ballList.get(i).yPos -= lowestBallYPos - ballRadius;
   }
 }

@@ -1,5 +1,5 @@
-String structureFilePath =  "C:/Users/Daniel Kane/Documents/Processing/Projects/mass_spring_sim/mass_spring_sim/structures/";
-
+import java.nio.file.Path;
+import java.nio.file.Paths;
 BufferedReader reader; 
 String line;
 Creature currentCreature;
@@ -60,11 +60,13 @@ void readCreatureFile(String fileName) {
 
 void writeCreatureFile(Creature c, String fileName) {
   
-  String structureFilePath =  "C:/Users/Daniel Kane/Documents/Processing/Projects/mass_spring_sim/mass_spring_sim/structures/";
+  //String structureFilePath =  "~/structures/";
   
   try{
-    File fileRight = new File(structureFilePath + fileName + ".txt");
-    PrintWriter writer = new PrintWriter(fileRight);
+    Path currentRelativePath = Paths.get("");
+    String pathString = currentRelativePath.toAbsolutePath().toString();
+    File fileWrite = new File(pathString + "\\..\\projects\\mass_spring_sim\\mass_spring_sim\\structures\\" + fileName + ".txt");
+    PrintWriter writer = new PrintWriter(fileWrite);
     writer.println("creature");
     
     writer.println("gravity " + gravity);
@@ -88,5 +90,4 @@ void writeCreatureFile(Creature c, String fileName) {
   } catch (IOException e) {
     e.printStackTrace();
   }
-  println("done!");
 }

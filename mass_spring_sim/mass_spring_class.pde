@@ -10,14 +10,12 @@ class Creature {
   color creatureColor = color(0,0,0);
   
   Creature() {
-    creatureCount++;
     this.ballList = new ArrayList<MassBall>();
     this.tempBallList = new ArrayList<MassBall>();
     this.springList = new ArrayList<Spring>();
   }
   
   Creature(ArrayList<MassBall> ballList, ArrayList<Spring> springList) {
-    creatureCount++;
     this.id = creatureCount;
     this.ballList = ballList;
     for (int i = 0; i < ballList.size(); i++) {
@@ -51,6 +49,9 @@ class Creature {
   
   void mutate() {
     // changes magnitude and phase
+    randomSeed(0);
+    creatureCount++;
+    id = creatureCount;
     for (int i = 0; i < springList.size(); i++) {
       float parameterDecider = random(0,23);
       if (parameterDecider < 11) {
@@ -72,14 +73,49 @@ class Creature {
   void printCreaturePhases() {
     println();
     for (int i = 0; i < this.springList.size(); i++) {
-      print(springList.get(i).phase+" ");
+      print(springList.get(i).phase+", ");
     }
   }
   
   void printCreatureMagnitudes() {
     println();
     for (int i = 0; i < this.springList.size(); i++) {
-      print(springList.get(i).magnitude+" ");
+      print(springList.get(i).magnitude+", ");
+    }
+  }
+  
+  void printCreatureBallPos() {
+    println();
+    for (int i = 0; i < ballList.size(); i++) {
+      print("[" + ballList.get(i).xPos + ", " + ballList.get(i).yPos+"], ");
+    }
+  }
+  
+  void printCreatureBallVel() {
+    println();
+    for (int i = 0; i < ballList.size(); i++) {
+      print("[" + ballList.get(i).xVel + ", " + ballList.get(i).yVel+"], ");
+    }
+  }
+  
+  void printCreatureBallAcc() {
+    println();
+    for (int i = 0; i < ballList.size(); i++) {
+      print("[" + ballList.get(i).xAcc + ", " + ballList.get(i).yAcc+"], ");
+    }
+  }
+  
+  void printCreatureBallFrictions() {
+    println();
+    for (int i = 0; i < ballList.size(); i++) {
+      print(ballList.get(i).friction + ", ");
+    }
+  }
+  
+  void printCreatureBallForces() {
+    println();
+    for (int i = 0; i < ballList.size(); i++) {
+      print("[" + ballList.get(i).xForce + ", " + ballList.get(i).yForce+"]");
     }
   }
   
@@ -139,6 +175,11 @@ class MassBall {
     copiedMassBall.xVel = this.xVel;
     copiedMassBall.yVel = this.yVel;
     
+    copiedMassBall.xPos = this.xPos;
+    copiedMassBall.yPos = this.yPos;
+    
+    copiedMassBall.friction = this.friction;
+    
     return copiedMassBall;
   }
   
@@ -171,7 +212,9 @@ class Spring {
   }
   
   Spring copySpring() {
-    Spring copiedSpring = new Spring(springConst, restLength, phase, magnitude, rightBallIndex, leftBallIndex);
+    Spring copiedSpring = new Spring(springConst, restLength, phase, magnitude, leftBallIndex, rightBallIndex);
+    copiedSpring.originalRestLength = originalRestLength;
     return copiedSpring;
   }
+  
 }
