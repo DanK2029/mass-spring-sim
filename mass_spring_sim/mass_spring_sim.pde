@@ -24,24 +24,18 @@ void setup(){
   size(600,600);
   frameRate(1000);
   background(255);
-  String structureFileName = "line";
+  String structureFileName = "baseTriangleCreature";
   //String structureFileName = "latestGenAlgoCreation_200Pop120Gen";
   readCreatureFile("structures/" + structureFileName + ".txt");
   Creature creature1 = creatureList.get(0);
   moveCreatureToGround(creature1);
-  Creature creature2 = creatureList.get(0).copyCreature();
-  creature2.creatureColor = color(0, 0, 0, 127);
-  creature1.creatureColor = color(255, 0, 0);
-  creatureList.add(creature2);
-  testCreature(creature1, 5000);
-  testCreature(creature2, 5000);
-
+  randomSeed(0);
+  geneticAlgorithm(20, 50, creature1);
 }
 
 void draw() {
   if (singleStep) {
     simStep(creatureList);
-     
   }
   drawCreatures();
 }
@@ -88,7 +82,15 @@ void simStep(ArrayList<Creature> creatureList) {
   text("Spring Dampening Constant: "+str(springDampeningConst), 10, 25);
   text("Viscous Dampening Constant: "+str(viscousDampeningConst), 10, 40);
   text(curIterator, 10, 55);
+  text(iterStep, 10, 70);
   
+  //reset forces
+  for (int i = 0; i < creatureList.size(); i++) {
+    for (int j = 0; j < creatureList.get(i).ballList.size(); j++) {
+      creatureList.get(i).ballList.get(j).xForce = 0.0;
+      creatureList.get(i).ballList.get(j).yForce = 0.0;
+    }
+  }
   
   //calculate springs
   for (int i = 0; i < creatureList.size(); i++) {
@@ -117,13 +119,7 @@ void simStep(ArrayList<Creature> creatureList) {
     eulerForward(1, tDelta, creatureList);
   }
   
-  //reset forces
-  for (int i = 0; i < creatureList.size(); i++) {
-    for (int j = 0; j < creatureList.get(i).ballList.size(); j++) {
-      creatureList.get(i).ballList.get(j).xForce = 0.0;
-      creatureList.get(i).ballList.get(j).yForce = 0.0;
-    }
-  }
+  
   time += tDelta;
 }
 
@@ -133,7 +129,7 @@ void readjustSpringRestLength(Creature creature, int springIndex){
   float magnitude = creature.springList.get(springIndex).magnitude;
   
   creature.springList.get(springIndex).restLength = creature.springList.get(springIndex).originalRestLength + magnitude*sin(time*frequency + phase*(2*PI));
-}
+  }
 
 void springForceCalc(Creature creature, int springIndex) {
   float Ks = creature.springList.get(springIndex).springConst;
@@ -155,7 +151,7 @@ void springForceCalc(Creature creature, int springIndex) {
   
   float fx = -((Ks * (r - springLength)) + (Kd * (ballPosDotVel)/springLength)) * (ballXPosDif/springLength);
   float fy = -((Ks * (r - springLength)) + (Kd * (ballPosDotVel)/springLength)) * (ballYPosDif/springLength);
-
+  
   rightBall.xForce += fx;
   rightBall.yForce += fy;
   

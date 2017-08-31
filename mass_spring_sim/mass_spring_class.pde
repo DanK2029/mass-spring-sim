@@ -49,7 +49,7 @@ class Creature {
   
   void mutate() {
     // changes magnitude and phase
-    randomSeed(0);
+    //randomSeed(0);
     creatureCount++;
     id = creatureCount;
     for (int i = 0; i < springList.size(); i++) {
@@ -70,8 +70,20 @@ class Creature {
     } 
   }
   
+  void printCreatureAttributes() {
+    this.printCreaturePhases();
+    this.printCreatureMagnitudes();
+    this.printCreatureBallPos();
+    this.printCreatureBallVel();
+    this.printCreatureBallAcc();
+    this.printCreatureBallFrictions();
+    this.printCreatureBallForces();
+    this.printCreatureRestLengths();
+  }
+  
   void printCreaturePhases() {
     println();
+    print("Phases: ");
     for (int i = 0; i < this.springList.size(); i++) {
       print(springList.get(i).phase+", ");
     }
@@ -79,6 +91,7 @@ class Creature {
   
   void printCreatureMagnitudes() {
     println();
+    print("Magnitudes: ");
     for (int i = 0; i < this.springList.size(); i++) {
       print(springList.get(i).magnitude+", ");
     }
@@ -86,6 +99,7 @@ class Creature {
   
   void printCreatureBallPos() {
     println();
+    print("Ball Positions: ");
     for (int i = 0; i < ballList.size(); i++) {
       print("[" + ballList.get(i).xPos + ", " + ballList.get(i).yPos+"], ");
     }
@@ -93,6 +107,7 @@ class Creature {
   
   void printCreatureBallVel() {
     println();
+    print("Ball Vel: ");
     for (int i = 0; i < ballList.size(); i++) {
       print("[" + ballList.get(i).xVel + ", " + ballList.get(i).yVel+"], ");
     }
@@ -100,6 +115,7 @@ class Creature {
   
   void printCreatureBallAcc() {
     println();
+    print("Ball Acc: ");
     for (int i = 0; i < ballList.size(); i++) {
       print("[" + ballList.get(i).xAcc + ", " + ballList.get(i).yAcc+"], ");
     }
@@ -107,6 +123,7 @@ class Creature {
   
   void printCreatureBallFrictions() {
     println();
+    print("Ball Frictions: ");
     for (int i = 0; i < ballList.size(); i++) {
       print(ballList.get(i).friction + ", ");
     }
@@ -114,8 +131,17 @@ class Creature {
   
   void printCreatureBallForces() {
     println();
+    print("Ball Forces: ");
     for (int i = 0; i < ballList.size(); i++) {
       print("[" + ballList.get(i).xForce + ", " + ballList.get(i).yForce+"]");
+    }
+  }
+  
+  void printCreatureRestLengths() {
+    println();
+    print("Ball Rest Lengths: ");
+    for (int i = 0; i < springList.size(); i++) {
+      print(springList.get(i).restLength+", ");
     }
   }
   

@@ -91,12 +91,13 @@ ArrayList<Creature> evaluatePopulation(ArrayList<Creature> population, int testT
 void testCreature(Creature c, int timeSpan) {
   Creature testCreature = c.copyCreature();
   ArrayList<Creature> singleCreatureList = new ArrayList<Creature>();
+  //singleCreatureList.add(c);
   singleCreatureList.add(testCreature);
 
   for (int i = 0; i < timeSpan; i++) {
     simStep(singleCreatureList);
+    time = 0.0;
   }
-
   float fitness = singleCreatureList.get(0).evaluateCreature();
   println(c.id, fitness);
   c.fitness = fitness;

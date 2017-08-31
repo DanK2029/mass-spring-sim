@@ -1,4 +1,10 @@
 void keyPressed() {
+  if (key == 'p') {
+    for (int i = 0; i < creatureList.size(); i++) {
+      println("Creature " + i);
+      creatureList.get(i).printCreatureAttributes();
+    }
+  }
   if (key == ' ') {
     singleStep = !singleStep;
   }
