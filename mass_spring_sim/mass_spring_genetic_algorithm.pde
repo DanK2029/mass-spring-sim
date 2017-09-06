@@ -19,7 +19,7 @@ Creature geneticAlgorithm(int populationSize, int numOfGenerations, Creature bas
         winningCreatureIndex = i;
       }
     }
-    //writeCreatureFile(population.get(winningCreatureIndex), "GenAlgoCreations/winningCreatures/"+generationCount);
+    writeCreatureFile(population.get(winningCreatureIndex), "GenAlgoCreations/winningCreatures/"+generationCount);
     Date genDate = new Date();
     println(genDate);
   } while (generationCount < numOfGenerations);

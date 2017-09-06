@@ -15,8 +15,12 @@ boolean halfStepFirstIterSpring = true;
 int draggedBallIndex = -1;
 
 boolean singleStep = false;
+boolean showMode = true;
 
 int iterStep = 0;
+
+int GAPopSize = 10;
+Creature baseCreature;
 
 String structureFileName = "";
 
@@ -24,16 +28,33 @@ void setup(){
   size(600,600);
   frameRate(1000);
   background(255);
-  String structureFileName = "baseTriangleCreature";
+  //String structureFileName = "wheel";
+  String structureFileName = "GenAlgoCreations/winningCreatures/50";
   //String structureFileName = "latestGenAlgoCreation_200Pop120Gen";
   readCreatureFile("structures/" + structureFileName + ".txt");
-  Creature creature1 = creatureList.get(0);
-  moveCreatureToGround(creature1);
+  baseCreature = creatureList.get(0).copyCreature();
+  moveCreatureToGround(baseCreature);
   randomSeed(0);
-  geneticAlgorithm(20, 50, creature1);
+  //geneticAlgorithm(20, 50, baseCreature);
 }
 
 void draw() {
+  if (showMode) {
+    displayShowMode();
+  } else {
+    runGAOnce(GAPopSize, baseCreature);
+    showMode = true;
+  }
+}
+
+void runGAOnce(int popSize, Creature baseCreature) {
+  creatureList.remove(0);
+  Creature GAResult = geneticAlgorithm(popSize, 1, baseCreature);
+  GAResult.translateCreature(-300, 0);
+  creatureList.add(GAResult);
+}
+
+void  displayShowMode() {
   if (singleStep) {
     simStep(creatureList);
   }
@@ -82,7 +103,7 @@ void simStep(ArrayList<Creature> creatureList) {
   text("Spring Dampening Constant: "+str(springDampeningConst), 10, 25);
   text("Viscous Dampening Constant: "+str(viscousDampeningConst), 10, 40);
   text(curIterator, 10, 55);
-  text(iterStep, 10, 70);
+  //text(iterStep, 10, 70);
   
   //reset forces
   for (int i = 0; i < creatureList.size(); i++) {
