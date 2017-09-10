@@ -19,8 +19,11 @@ boolean showMode = true;
 
 int iterStep = 0;
 
-int GAPopSize = 10;
+int GAPopSize = 4;
+int GANumOfGens = 2;
 Creature baseCreature;
+int generationCount;
+int testNum = 1;
 
 String structureFileName = "";
 
@@ -28,30 +31,29 @@ void setup(){
   size(600,600);
   frameRate(1000);
   background(255);
-  //String structureFileName = "wheel";
-  String structureFileName = "GenAlgoCreations/winningCreatures/50";
-  //String structureFileName = "latestGenAlgoCreation_200Pop120Gen";
+  structureFileName = "wheel";
   readCreatureFile("structures/" + structureFileName + ".txt");
   baseCreature = creatureList.get(0).copyCreature();
   moveCreatureToGround(baseCreature);
+  moveCreatureToGround(creatureList.get(0));
   randomSeed(0);
-  //geneticAlgorithm(20, 50, baseCreature);
-}
-
-void draw() {
-  if (showMode) {
-    displayShowMode();
+  if (!showMode) {
+    geneticAlgorithm(GAPopSize, GANumOfGens, baseCreature);
   } else {
-    runGAOnce(GAPopSize, baseCreature);
-    showMode = true;
+    generationCount = GANumOfGens;
+    creatureList.remove(0);
+    readCreatureFile("C:\\Users\\Daniel\\Documents\\Georgia Institute of Technology\\Spring 2017\\CS 3451\\projects\\mass_spring_sim\\mass_spring_sim\\structures\\GenAlgoCreations\\winningCreatures\\"+ structureFileName + "\\" + "test" + testNum + "\\" + generationCount + ".txt");
   }
 }
 
-void runGAOnce(int popSize, Creature baseCreature) {
-  creatureList.remove(0);
-  Creature GAResult = geneticAlgorithm(popSize, 1, baseCreature);
-  GAResult.translateCreature(-300, 0);
-  creatureList.add(GAResult);
+void draw() {
+  displayShowMode();
+}
+
+void drawFitnessLine() {
+  stroke(255,0,0);
+  line(creatureList.get(0).fitness, 0, creatureList.get(0).fitness, height);
+  noStroke();
 }
 
 void  displayShowMode() {
@@ -59,6 +61,7 @@ void  displayShowMode() {
     simStep(creatureList);
   }
   drawCreatures();
+  drawFitnessLine();
 }
 
 void drawCreature(Creature c) {
@@ -99,11 +102,10 @@ void simStep(ArrayList<Creature> creatureList) {
   iterStep++;
   background(255);
   fill(0);
-  text("Gravity: "+str(gravity), 10, 10);
-  text("Spring Dampening Constant: "+str(springDampeningConst), 10, 25);
+  text("Generation: "+str(generationCount), 10, 10);
+  text("Creature ID: "+str(creatureList.get(0).id), 10, 25);
   text("Viscous Dampening Constant: "+str(viscousDampeningConst), 10, 40);
-  text(curIterator, 10, 55);
-  //text(iterStep, 10, 70);
+  text("fitness: "+str(creatureList.get(0).fitness), 10, 70);
   
   //reset forces
   for (int i = 0; i < creatureList.size(); i++) {

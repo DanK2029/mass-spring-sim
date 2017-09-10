@@ -47,6 +47,8 @@ void readCreatureFile(String fileName) {
       tDelta = float(words[1]);
     } else if (words[0].equals("floorFriction")) {
       floorFriction = float(words[1]);
+    } else if (words[0].equals("fitness")) {
+      currentCreature.fitness = float(words[1]);
     }
     
     try {
@@ -63,10 +65,10 @@ void writeCreatureFile(Creature c, String fileName) {
   //String structureFilePath =  "~/structures/";
   
   try{
-    //Path currentRelativePath = Paths.get("");
-    //String pathString = currentRelativePath.toAbsolutePath().toString();
-    //File fileWrite = new File(pathString + "\\..\\projects\\mass_spring_sim\\mass_spring_sim\\structures\\" + fileName + ".txt");
-    File fileWrite = new File("C:\\Users\\Daniel Kane\\Documents\\Processing\\Projects\\mass_spring_sim\\mass_spring_sim\\structures\\" + fileName + ".txt");
+    Path currentRelativePath = Paths.get("");
+    String pathString = currentRelativePath.toAbsolutePath().toString();
+    File fileWrite = new File(pathString + "\\..\\projects\\mass_spring_sim\\mass_spring_sim\\structures\\" + fileName + ".txt");
+    //File fileWrite = new File("C:\\Users\\Daniel Kane\\Documents\\Processing\\Projects\\mass_spring_sim\\mass_spring_sim\\structures\\" + fileName + ".txt");
     PrintWriter writer = new PrintWriter(fileWrite);
     writer.println("creature");
     
@@ -75,6 +77,7 @@ void writeCreatureFile(Creature c, String fileName) {
     writer.println("viscousDampeningConst " + viscousDampeningConst);
     writer.println("floorFriction " + floorFriction);
     writer.println("ballRadius " + ballRadius);
+    writer.println("fitness " + c.fitness);
     
     for (int i = 0; i < c.ballList.size(); i++) {
       MassBall mb = c.ballList.get(i);

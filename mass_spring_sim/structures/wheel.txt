@@ -6,7 +6,6 @@ ballRadius 10
 
 creature
 
-massBall 200 200 25
 massBall 200 150 25
 massBall 235.36 164.64 25 
 massBall 250 200 25
@@ -17,23 +16,19 @@ massBall 150 200 25
 massBall 164.64 164.64 25
 
 
-spring 51 50 1 5 0 1
-spring 51 50 0.75 5 0 2
-spring 51 50 0.5 5 0 3
-spring 51 50 0.25 5 0 4
-spring 51 50 0 5 0 5
-spring 51 50 0.25 5 0 6
-spring 51 50 0.75 5 0 7
-spring 51 50 1 5 0 8
+spring 51 100 1 5 0 4
+spring 51 100 0.75 5 1 5
+spring 51 100 0.5 5 2 6
+spring 51 100 0.25 5 3 7
 
+spring 80 38.27 0 0 0 1
 spring 80 38.27 0 0 1 2
 spring 80 38.27 0 0 2 3
 spring 80 38.27 0 0 3 4
 spring 80 38.27 0 0 4 5
 spring 80 38.27 0 0 5 6
 spring 80 38.27 0 0 6 7
-spring 80 38.27 0 0 7 8
-spring 80 38.27 0 0 8 1
+spring 80 38.27 0 0 7 0
 
 createCreature
 

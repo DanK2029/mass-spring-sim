@@ -1,4 +1,18 @@
 void keyPressed() {
+  if (key == '-') {
+    if (generationCount > 1) {
+      generationCount--;
+      creatureList.remove(0);
+      readCreatureFile("C:\\Users\\Daniel\\Documents\\Georgia Institute of Technology\\Spring 2017\\CS 3451\\projects\\mass_spring_sim\\mass_spring_sim\\structures\\GenAlgoCreations\\winningCreatures\\"+ structureFileName + "\\" + "test" + testNum + "\\" + generationCount + ".txt");
+    }
+  }
+  if (key == '=') {
+    if (generationCount < GANumOfGens) {
+      generationCount++;
+      creatureList.remove(0);
+      readCreatureFile("C:\\Users\\Daniel\\Documents\\Georgia Institute of Technology\\Spring 2017\\CS 3451\\projects\\mass_spring_sim\\mass_spring_sim\\structures\\GenAlgoCreations\\winningCreatures\\"+ structureFileName + "\\" + "test" + testNum + "\\" + generationCount + ".txt");
+    }
+  }
   if (key == 'g') {
     showMode = false;
   }

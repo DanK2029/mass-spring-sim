@@ -4,7 +4,7 @@ Creature geneticAlgorithm(int populationSize, int numOfGenerations, Creature bas
   int winningCreatureIndex = 0;
   float topFitness = 0.0;
   int testTimeSpan = 8000;
-  int generationCount = 0;
+  generationCount = 0;
   ArrayList<Creature> population = generateInitialPopulation(populationSize, baseCreature);
 
   do {
@@ -19,7 +19,7 @@ Creature geneticAlgorithm(int populationSize, int numOfGenerations, Creature bas
         winningCreatureIndex = i;
       }
     }
-    writeCreatureFile(population.get(winningCreatureIndex), "GenAlgoCreations/winningCreatures/"+generationCount);
+    writeCreatureFile(population.get(winningCreatureIndex), "GenAlgoCreations/winningCreatures/"+ structureFileName + "/" +generationCount);
     Date genDate = new Date();
     println(genDate);
   } while (generationCount < numOfGenerations);
