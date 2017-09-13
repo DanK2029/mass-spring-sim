@@ -15,12 +15,12 @@ boolean halfStepFirstIterSpring = true;
 int draggedBallIndex = -1;
 
 boolean singleStep = false;
-boolean showMode = true;
+boolean showMode = false;
 
 int iterStep = 0;
 
-int GAPopSize = 4;
-int GANumOfGens = 2;
+int GAPopSize = 80;
+int GANumOfGens = 80;
 Creature baseCreature;
 int generationCount;
 int testNum = 1;
@@ -31,18 +31,19 @@ void setup(){
   size(600,600);
   frameRate(1000);
   background(255);
-  structureFileName = "wheel";
+  structureFileName = "daintyWalker";
   readCreatureFile("structures/" + structureFileName + ".txt");
   baseCreature = creatureList.get(0).copyCreature();
   moveCreatureToGround(baseCreature);
   moveCreatureToGround(creatureList.get(0));
   randomSeed(0);
   if (!showMode) {
-    geneticAlgorithm(GAPopSize, GANumOfGens, baseCreature);
+    creatureList.remove(0);
+    creatureList.add(geneticAlgorithm(GAPopSize, GANumOfGens, baseCreature));
   } else {
     generationCount = GANumOfGens;
     creatureList.remove(0);
-    readCreatureFile("C:\\Users\\Daniel\\Documents\\Georgia Institute of Technology\\Spring 2017\\CS 3451\\projects\\mass_spring_sim\\mass_spring_sim\\structures\\GenAlgoCreations\\winningCreatures\\"+ structureFileName + "\\" + "test" + testNum + "\\" + generationCount + ".txt");
+    readCreatureFile("C:\\Users\\Daniel Kane\\Documents\\Processing\\Projects\\mass_spring_sim\\mass_spring_sim\\structures\\GenAlgoCreations\\winningCreatures\\"+ structureFileName + "\\" + "test" + testNum + "\\" + generationCount + ".txt");
   }
 }
 

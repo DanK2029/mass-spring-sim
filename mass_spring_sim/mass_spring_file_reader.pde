@@ -62,13 +62,9 @@ void readCreatureFile(String fileName) {
 
 void writeCreatureFile(Creature c, String fileName) {
   
-  //String structureFilePath =  "~/structures/";
   
   try{
-    Path currentRelativePath = Paths.get("");
-    String pathString = currentRelativePath.toAbsolutePath().toString();
-    File fileWrite = new File(pathString + "\\..\\projects\\mass_spring_sim\\mass_spring_sim\\structures\\" + fileName + ".txt");
-    //File fileWrite = new File("C:\\Users\\Daniel Kane\\Documents\\Processing\\Projects\\mass_spring_sim\\mass_spring_sim\\structures\\" + fileName + ".txt");
+    File fileWrite = new File("C:\\Users\\Daniel Kane\\Documents\\Processing\\Projects\\mass_spring_sim\\mass_spring_sim\\structures\\" + fileName + ".txt");
     PrintWriter writer = new PrintWriter(fileWrite);
     writer.println("creature");
     
